@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { createApp } from './app.js';
 import { createCatalogService } from './catalog/catalogService.js';
 import { createConfigurationService } from './configuration/configurationService.js';
+import { createPricingService } from './pricing/pricingService.js';
 import { environment } from './config/environment.js';
 
 const cache = createClient({
@@ -27,7 +28,8 @@ async function start() {
 
     const catalogService = createCatalogService({ prisma, cache });
     const configurationService = createConfigurationService({ prisma });
-    const app = createApp({ ...environment, catalogService, configurationService });
+    const pricingService = createPricingService({ prisma, configurationService });
+    const app = createApp({ ...environment, catalogService, configurationService, pricingService });
     server = app.listen(environment.port, () => {
       console.log(`Carsport API listening on port ${environment.port}`);
     });

@@ -21,14 +21,15 @@ export function VehicleViewer({ vehicle }) {
   useEffect(() => {
     let engine;
     let scene;
+    const canvas = canvasRef.current;
 
     try {
-      engine = new Engine(canvasRef.current, true);
+      engine = new Engine(canvas, true);
       scene = new Scene(engine);
       scene.clearColor = new Color4(0.04, 0.06, 0.1, 1);
 
       const camera = new ArcRotateCamera('camera', Math.PI / 2, Math.PI / 3, 8, Vector3.Zero(), scene);
-      camera.attachControl(canvasRef.current, true);
+      camera.attachControl(canvas, true);
       new HemisphericLight('ambient-light', new Vector3(0, 1, 0), scene);
       sceneRef.current = scene;
       cameraRef.current = camera;
@@ -37,11 +38,16 @@ export function VehicleViewer({ vehicle }) {
     } catch {
       setError('The 3D viewer requires WebGL support from your browser and graphics device.');
     }
-    const resize = () => engine.resize();
-    if (engine) window.addEventListener('resize', resize);
+    const resize = () => engine?.resize();
+    const preventPageScroll = (event) => event.preventDefault();
+    if (engine) {
+      window.addEventListener('resize', resize);
+      canvas?.addEventListener('wheel', preventPageScroll, { passive: false });
+    }
 
     return () => {
       window.removeEventListener('resize', resize);
+      canvas?.removeEventListener('wheel', preventPageScroll);
       scene?.dispose();
       engine?.dispose();
       sceneRef.current = null;

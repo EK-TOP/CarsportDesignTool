@@ -10,3 +10,10 @@ export async function saveConfiguration(vehicleId, placements) {
   const { data } = await response.json();
   return data;
 }
+
+export async function createQuote(vehicleId, configurationId) {
+  const response = await fetch(`${apiUrl}/api/vehicles/${vehicleId}/configurations/${configurationId}/quote`, { method: 'POST' });
+  if (!response.ok) throw new Error('Unable to calculate the quote.');
+  const { data } = await response.json();
+  return data;
+}

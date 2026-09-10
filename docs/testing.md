@@ -259,6 +259,18 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Outcome:** **Pass**.
 - **Related change:** `fa44ec6`.
 
+### Step 4 pricing and quotation foundation
+
+- **Date:** 2026-09-10
+- **Phase:** Step 4 — pricing and quotations.
+- **Purpose:** Verify authoritative itemized quote creation for valid persisted configurations.
+- **Environment:** Local Docker Compose PostgreSQL, backend, and frontend services.
+- **Method:** Applied the quotation migration; ran the complete backend test suite and frontend lint/build checks.
+- **Expected result:** A valid configuration produces an itemized EUR quote, with correct integer-cent totals; all checks pass.
+- **Actual result:** All `6` backend tests passed, including a quote total of `4,728,900` cents for Demo Sport plus the rear spoiler. Frontend lint passed after correcting a viewer cleanup warning. Vite production build passed with only the existing non-blocking Babylon.js chunk-size advisory.
+- **Outcome:** **Pass**.
+- **Related change:** Step 4 work in progress; commit pending.
+
 ## Test entry template
 
 ### [Test name]

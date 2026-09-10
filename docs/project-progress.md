@@ -1,6 +1,6 @@
 # Carsport Design Tool — Project Progress
 
-**Status:** Step 3 implemented and verified; awaiting publication.
+**Status:** Step 4 implemented and verified; awaiting publication.
 
 This document records the work completed from the initial agent specifications through the first catalog-enabled version of the Carsport Design Tool. Each future implementation phase requires explicit approval before work proceeds.
 
@@ -185,10 +185,11 @@ The following audit fixes were completed before 3D asset loading begins:
 
 ### Step 4 — Add pricing and quotations
 
-- Add base-price and component-price calculation.
-- Implement a price breakdown API and frontend summary.
-- Add discounts, campaigns, and formula extension points.
-- Generate quotation objects.
+- **Completed:** Added persistent quotation records with integer-cent subtotal, discount, and total amounts.
+- **Completed:** Added an authoritative backend quote API that calculates vehicle and selected-part line items.
+- **Completed:** Added a frontend itemized EUR quote summary after a valid configuration is saved.
+- **Completed:** Added a zero-value discount extension point for future campaigns and formulas.
+- **Verified:** Backend tests pass `6/6`; frontend lint and production build pass.
 
 **Expected result:** A valid configuration displays an accurate, itemized price.
 

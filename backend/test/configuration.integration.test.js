@@ -31,3 +31,16 @@ test('returns structured errors for an invalid placement zone', async () => {
   assert.equal(data.valid, false);
   assert.ok(data.errors.some((error) => error.code === 'INVALID_ZONE'));
 });
+
+test('creates an itemized quote for a valid configuration', async () => {
+  const vehicle = await demoSport();
+  const detail = await fetch(`${apiUrl}/api/vehicles/${vehicle.id}`).then((response) => response.json());
+  const spoiler = detail.data.parts.find((part) => part.category === 'aerodynamics');
+  const configurationResponse = await fetch(`${apiUrl}/api/vehicles/${vehicle.id}/configurations`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ placements: [{ partId: spoiler.id, zoneCode: 'rear-aero' }] }) });
+  const { data: configuration } = await configurationResponse.json();
+  const response = await fetch(`${apiUrl}/api/vehicles/${vehicle.id}/configurations/${configuration.id}/quote`, { method: 'POST' });
+  assert.equal(response.status, 201);
+  const { data } = await response.json();
+  assert.equal(data.totalCents, 4728900);
+  assert.equal(data.lineItems.length, 2);
+});

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchVehicle, fetchVehicles } from './features/catalog/catalogApi.js';
-import { saveConfiguration } from './features/configuration/configurationApi.js';
+import { createQuote, saveConfiguration } from './features/configuration/configurationApi.js';
 import { ConfigurationPanel } from './features/configuration/ConfigurationPanel.jsx';
 import { VehicleViewer } from './features/vehicle-viewer/VehicleViewer.jsx';
 import { useDesignerStore } from './store/designerStore.js';
@@ -14,6 +14,7 @@ export function App() {
   const [vehicleState, setVehicleState] = useState('idle');
   const [configurationState, setConfigurationState] = useState('idle');
   const [validationResult, setValidationResult] = useState(null);
+  const [quote, setQuote] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -55,7 +56,9 @@ export function App() {
     if (!selectedVehicle) return;
     setConfigurationState('saving');
     try {
-      setValidationResult(await saveConfiguration(selectedVehicle, placements));
+      const configuration = await saveConfiguration(selectedVehicle, placements);
+      setValidationResult(configuration);
+      setQuote(configuration.valid ? await createQuote(selectedVehicle, configuration.id) : null);
       setConfigurationState('ready');
     } catch {
       setConfigurationState('error');
@@ -83,7 +86,7 @@ export function App() {
           <p>{catalogState === 'ready' && (selectedVehicle ? 'Ready to configure components.' : 'Choose a vehicle to begin.')}</p>
           <p>{vehicleState === 'loading' && 'Loading vehicle details...'}</p>
           <p>{vehicleState === 'error' && 'Vehicle details are unavailable. Select the vehicle again to retry.'}</p>
-          {selectedVehicleDetail && <><h3>{selectedVehicleDetail.name}</h3><p>{selectedVehicleDetail.parts.length} compatible parts available.</p><ConfigurationPanel parts={selectedVehicleDetail.parts} placements={placements} onToggle={togglePlacement} onSave={handleSaveConfiguration} saving={configurationState === 'saving'} result={validationResult} />{configurationState === 'error' && <p>Configuration could not be saved. Try again.</p>}</>}
+          {selectedVehicleDetail && <><h3>{selectedVehicleDetail.name}</h3><p>{selectedVehicleDetail.parts.length} compatible parts available.</p><ConfigurationPanel parts={selectedVehicleDetail.parts} placements={placements} onToggle={togglePlacement} onSave={handleSaveConfiguration} saving={configurationState === 'saving'} result={validationResult} />{quote && <section className="quote"><h3>Quote</h3>{quote.lineItems.map((item) => <p key={item.label}>{item.label}: €{(item.amountCents / 100).toFixed(2)}</p>)}<strong>Total: €{(quote.totalCents / 100).toFixed(2)}</strong></section>}{configurationState === 'error' && <p>Configuration could not be saved. Try again.</p>}</>}
         </aside>
       </section>
     </main>

@@ -8,7 +8,7 @@ h1 { margin: .2rem 0; font-size: clamp(2.2rem, 5vw, 4.5rem); }
 .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 280px; min-height: 530px; gap: 1rem; margin-top: 2.5rem; }
 .viewer-container, .panel { border: 1px solid #24334e; border-radius: 1rem; background: #0d1524; }
 .viewer-container { position: relative; overflow: hidden; }
-.vehicle-viewer { width: 100%; height: 100%; min-height: 460px; touch-action: none; }
+.vehicle-viewer { width: 100%; height: 100%; min-height: 460px; overscroll-behavior: contain; touch-action: none; }
 .panel { padding: 1.5rem; }
 label, select { display: block; width: 100%; margin-top: 1rem; }
 select { padding: .7rem; border-radius: .5rem; }
@@ -25,4 +25,6 @@ button { margin-top: .5rem; padding: .7rem 1rem; border: 0; border-radius: .5rem
 .validation-result p { margin: .45rem 0 0; }
 .validation-valid { background: #123d31; color: #ceffeb; }
 .validation-error { background: #4a1e27; color: #ffd2d8; }
+.quote { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #24334e; }
+.quote p { display: flex; justify-content: space-between; margin: .45rem 0; }
 @media (max-width: 760px) { .designer-shell { padding: 1.5rem; } .workspace { grid-template-columns: 1fr; } }
