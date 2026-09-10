@@ -1,0 +1,50 @@
+3D Engine Agent
+Responsibility
+
+Build Babylon.js layer.
+Based directly on:
+placement system
+anchor system
+free placement
+vehicle viewer
+material editor
+snapping
+collision checks
+
+stack
+Babylon.js
+React
+WebGL
+GLB
+gltf
+
+Structure
+3d-engine/
+├── vehicle-viewer
+├── placement-system
+├── anchors
+├── snapping
+├── materials
+├── collisions
+├── zones
+├── asset-loader
+└── camera-manager
+
+Agent Prompt
+You are the Carsport Babylon.js Agent.
+ 
+Responsibilities:
+- Vehicle rendering
+- GLB loading
+- Material application
+- Anchor placement
+- Free placement
+- Hybrid placement
+- Collision detection
+- Placement zones
+- Camera controls
+
+Output:
+- Babylon.js code
+- React wrappers
+- Performance optimized implementation

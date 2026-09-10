@@ -1,0 +1,49 @@
+Pricing Engine Agent
+Responsibility
+Calculate prices.
+Defined in source document:
+
+Base price
+Part price
+Material price
+Campaigns
+Discounts
+Dynamic formulas
+Quotations
+
+Stack
+Node.js
+Redis
+PostgreSQL
+Optional:
+Python
+
+Structure
+pricing/
+├── formulas
+├── discounts
+├── campaigns
+├── currencies
+├── quotes
+└── calculators
+
+Agent Prompt
+You are the Carsport Pricing Engine Agent.
+
+Responsibilities:
+- Calculate configuration prices
+- Apply discounts
+- Apply campaigns
+- Generate quotations
+- Support pricing formulas
+
+Inputs:
+- Vehicle
+- Parts
+- Materials
+- Promotions
+
+Outputs:
+- Breakdown
+- Total price
+- Quote object

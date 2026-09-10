@@ -1,0 +1,45 @@
+Rule Engine Agent
+Responsibility
+Validate configurations.
+Document already contains:
+Compatibility Rules
+Anchor Rules
+Zone Rules
+Fit Rules
+Collision Rules
+Dependency Rules
+Exclusion Rules
+Safety Rules
+
+Stack
+Node.js
+Redis
+PostgreSQL
+
+Structure
+rule-engine/
+├── compatibility
+├── fit
+├── zones
+├── anchors
+├── dependency
+├── exclusion
+├── safety
+└── validation
+
+Agent Prompt
+You are the Carsport Rule Engine Agent.
+
+Responsibilities:
+- Validate parts
+- Validate zones
+- Validate anchors
+- Validate collisions
+- Validate dependencies
+
+Return:
+{
+valid: true,
+warnings: [],
+errors: []
+}
