@@ -1,5 +1,6 @@
 const vehiclesCacheKey = 'catalog:vehicles';
 const cacheTtlSeconds = 60;
+import { isVehicleSummaryList } from '../utils/validation.js';
 
 function toVehicleSummary(vehicle) {
   return {
@@ -17,7 +18,11 @@ export function createCatalogService({ prisma, cache }) {
   async function listVehicles() {
     try {
       const cached = await cache.get(vehiclesCacheKey);
-      if (cached) return JSON.parse(cached);
+      if (cached) {
+        const vehicles = JSON.parse(cached);
+        if (isVehicleSummaryList(vehicles)) return vehicles;
+        await cache.del(vehiclesCacheKey);
+      }
     } catch (error) {
       console.warn('Catalog cache read failed; querying database:', error.message);
     }

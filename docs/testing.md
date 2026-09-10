@@ -271,6 +271,18 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Outcome:** **Pass**.
 - **Related change:** Step 4 work in progress; commit pending.
 
+### API hardening regression check
+
+- **Date:** 2026-09-10
+- **Phase:** Post-Step 4 hardening.
+- **Purpose:** Confirm request-size limiting, shared validation, cache validation, and model-fetch timeout changes preserve application behavior.
+- **Environment:** Local Docker Compose backend.
+- **Method:** Ran `npm test` in the backend container.
+- **Expected result:** Existing catalog, model delivery, configuration, and pricing behavior remains valid.
+- **Actual result:** All `6` backend integration tests passed.
+- **Outcome:** **Pass**.
+- **Related change:** Hardening work in progress; commit pending.
+
 ## Test entry template
 
 ### [Test name]

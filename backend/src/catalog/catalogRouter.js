@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { Readable } from 'node:stream';
+import { isCuid } from '../utils/validation.js';
 
-const cuidPattern = /^c[a-z0-9]{24}$/;
 const trustedModelHost = 'raw.githubusercontent.com';
 
 export function createCatalogRouter(catalogService) {
@@ -18,7 +18,7 @@ export function createCatalogRouter(catalogService) {
   router.get('/vehicles/:vehicleId', async (request, response, next) => {
     try {
       const { vehicleId } = request.params;
-      if (!cuidPattern.test(vehicleId)) return response.status(400).json({ error: 'Invalid vehicle ID' });
+      if (!isCuid(vehicleId)) return response.status(400).json({ error: 'Invalid vehicle ID' });
 
       const vehicle = await catalogService.getVehicle(vehicleId);
       if (!vehicle) return response.status(404).json({ error: 'Vehicle not found' });
@@ -31,7 +31,7 @@ export function createCatalogRouter(catalogService) {
   router.get('/assets/:assetId/model.glb', async (request, response, next) => {
     try {
       const { assetId } = request.params;
-      if (!cuidPattern.test(assetId)) return response.status(400).json({ error: 'Invalid asset ID' });
+      if (!isCuid(assetId)) return response.status(400).json({ error: 'Invalid asset ID' });
 
       const asset = await catalogService.getModelAsset(assetId);
       if (!asset) return response.status(404).json({ error: 'Model asset not found' });
@@ -41,7 +41,17 @@ export function createCatalogRouter(catalogService) {
         return response.status(502).json({ error: 'Model asset source is not supported' });
       }
 
-      const upstream = await fetch(source);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10_000);
+      let upstream;
+      try {
+        upstream = await fetch(source, { signal: controller.signal });
+      } catch (error) {
+        if (error.name === 'AbortError') return response.status(504).json({ error: 'Model asset request timed out' });
+        throw error;
+      } finally {
+        clearTimeout(timeout);
+      }
       if (!upstream.ok || !upstream.body) return response.status(502).json({ error: 'Model asset is unavailable' });
 
       response.set({

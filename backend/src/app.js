@@ -8,7 +8,7 @@ export function createApp({ clientOrigin, catalogService, configurationService, 
   const app = express();
 
   app.use(cors({ origin: clientOrigin }));
-  app.use(express.json());
+  app.use(express.json({ limit: '1mb' }));
 
   app.get('/health', (_request, response) => {
     response.status(200).json({ status: 'ok', service: 'carsport-backend' });

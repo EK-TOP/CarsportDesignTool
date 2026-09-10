@@ -1,9 +1,8 @@
 import { Router } from 'express';
-
-const cuidPattern = /^c[a-z0-9]{24}$/;
+import { isCuid } from '../utils/validation.js';
 
 function validPlacements(value) {
-  return Array.isArray(value) && value.every((placement) => placement && cuidPattern.test(placement.partId) && typeof placement.zoneCode === 'string' && placement.zoneCode.length > 0 && placement.zoneCode.length <= 80);
+  return Array.isArray(value) && value.every((placement) => placement && isCuid(placement.partId) && typeof placement.zoneCode === 'string' && placement.zoneCode.length > 0 && placement.zoneCode.length <= 80);
 }
 
 export function createConfigurationRouter(configurationService) {
@@ -13,7 +12,7 @@ export function createConfigurationRouter(configurationService) {
     try {
       const { vehicleId } = request.params;
       const { placements } = request.body ?? {};
-      if (!cuidPattern.test(vehicleId)) return response.status(400).json({ error: 'Invalid vehicle ID' });
+      if (!isCuid(vehicleId)) return response.status(400).json({ error: 'Invalid vehicle ID' });
       if (!validPlacements(placements)) return response.status(400).json({ error: 'placements must contain partId and zoneCode values' });
       const configuration = await configurationService.save(vehicleId, placements);
       if (!configuration) return response.status(404).json({ error: 'Vehicle not found' });
@@ -26,7 +25,7 @@ export function createConfigurationRouter(configurationService) {
   router.get('/vehicles/:vehicleId/configurations/:configurationId', async (request, response, next) => {
     try {
       const { vehicleId, configurationId } = request.params;
-      if (!cuidPattern.test(vehicleId) || !cuidPattern.test(configurationId)) return response.status(400).json({ error: 'Invalid configuration identifier' });
+      if (!isCuid(vehicleId) || !isCuid(configurationId)) return response.status(400).json({ error: 'Invalid configuration identifier' });
       const configuration = await configurationService.get(vehicleId, configurationId);
       if (!configuration) return response.status(404).json({ error: 'Configuration not found' });
       return response.json({ data: configuration });
