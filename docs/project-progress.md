@@ -179,7 +179,7 @@ The following audit fixes were completed before 3D asset loading begins:
 - **Completed:** Seeded Demo Sport rear-aerodynamics and wheel-fitment placement rules.
 - **Completed:** Added compatible-part selection and configuration saving in the frontend.
 - **Completed:** Added backend configuration persistence and structured `valid`, `warnings`, and `errors` validation responses.
-- **Verified:** Backend integration tests pass `5/5`; frontend lint passes.
+- **Verified:** Backend integration tests pass `5/5`; frontend lint passes; manual browser testing confirmed the **Configuration is valid** result appears after saving compatible options.
 
 **Expected result:** Users can configure compatible components and receive validation feedback.
 

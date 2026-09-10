@@ -247,6 +247,18 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Outcome:** **Pass**.
 - **Related change:** Step 3 work in progress; commit pending.
 
+### Step 3 browser configuration save
+
+- **Date:** 2026-09-10
+- **Phase:** Step 3 — configuration and rule foundations.
+- **Purpose:** Confirm the configuration UI displays the server validation result after saving selected compatible parts.
+- **Environment:** Local browser with the Docker Compose application stack.
+- **Method:** Selected compatible options in the designer and saved the configuration.
+- **Expected result:** The UI presents a successful structured validation response when the selected parts use valid placement zones.
+- **Actual result:** User confirmed the **Configuration is valid** message appeared after saving the options.
+- **Outcome:** **Pass**.
+- **Related change:** `fa44ec6`.
+
 ## Test entry template
 
 ### [Test name]
