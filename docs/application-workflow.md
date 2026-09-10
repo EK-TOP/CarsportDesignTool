@@ -2,7 +2,7 @@
 
 This document describes how the Carsport frontend, backend, realtime server, PostgreSQL database, Redis cache, and Docker development stack work together.
 
-> **Current scope:** The catalog workflow is implemented and verified. The Babylon.js scene is active but does not yet load a vehicle GLB/glTF asset. The realtime service is deployed but intentionally disabled until authentication and persistent configuration handling are implemented.
+> **Current scope:** Catalog selection, GLB vehicle loading, compatible-part configuration, placement validation, configuration persistence, and itemized quotation creation are implemented and verified. The realtime service remains intentionally disabled until authentication, authorization, and persisted collaboration handling are implemented.
 
 ## 1. System roles
 
@@ -183,7 +183,7 @@ flowchart LR
     Engine -->|WebGL unavailable| Fallback[Show accessible error message]
 ```
 
-Step 2 will connect the selected vehicle ID to a detail request and then load the returned vehicle GLB/glTF asset in this viewer.
+The viewer loads the selected vehicle detail and requests its GLB through the backend model-asset endpoint. It shows loading, error, and camera-control states; the browser mouse wheel is reserved for canvas zoom while hovering the viewer.
 
 ## 7. Data persistence workflow
 

@@ -16,3 +16,12 @@ A vehicle configuration foundation with a React/Babylon.js designer, Express API
 - `server/` — WebSocket collaboration service.
 - `docs/` — Architecture and contracts.
 - `aiAgents/` — Agent responsibilities that guide implementation.
+
+## Documentation
+
+- [Architecture](docs/architecture.md)
+- [Application workflow](docs/application-workflow.md)
+- [Project progress](docs/project-progress.md)
+- [Testing record](docs/testing.md)
+- [Improvements and future tasks](docs/improvements-and-future-tasks.md)
+- [Future AI conversation handoff](docs/future-ai-handoff.md)

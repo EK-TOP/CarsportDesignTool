@@ -1,6 +1,6 @@
 # Carsport Design Tool — Project Progress
 
-**Status:** Step 4 implemented and verified; awaiting publication.
+**Status:** Steps 1–4 and post-Step 4 hardening are published; Step 5 requires explicit approval and a deployment target.
 
 This document records the work completed from the initial agent specifications through the first catalog-enabled version of the Carsport Design Tool. Each future implementation phase requires explicit approval before work proceeds.
 
