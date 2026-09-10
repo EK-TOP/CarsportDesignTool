@@ -20,10 +20,32 @@ This document records architecture audit decisions, agreed improvements, and wor
 
 ## Prioritized future backlog
 
+## Frontend security review — 2026-09-10
+
+### Confirmed safe behavior
+
+- React renders current API and validation messages as escaped text nodes. The frontend does not use `dangerouslySetInnerHTML`, so the reviewed error displays are not an active XSS path.
+- `VITE_*` values are public browser build-time configuration. Secrets must never be stored in them.
+- Browser password pasting remains allowed to support password managers and accessibility tools.
+
+### Required before public deployment
+
+1. Add CSRF protection to authenticated state-changing requests. HTTP-only JWT cookies and `credentials: 'include'` are implemented, but they are not sufficient on their own for a public deployment.
+2. Create a shared frontend API URL module that validates `VITE_API_URL`, requires it for production builds, and rejects non-HTTPS production URLs.
+3. Replace the temporary detailed Babylon viewer error shown to users with a generic message. Retain technical detail only in browser/server logs.
+4. Restore the signed-in account on app startup through `GET /api/auth/me`, and provide a logout control that calls `POST /api/auth/logout`.
+5. Add a dependency vulnerability check to CI using `npm audit --audit-level=moderate` after a lockfile install.
+6. Configure CSP, frame protection, `X-Content-Type-Options`, referrer policy, TLS/HSTS, and secure cookies at the production Nginx/reverse-proxy layer. HTML meta tags are not a substitute for these response headers.
+
+### Classification
+
+- These are deployment/security-hardening requirements, not confirmed current browser exploits in the local development stack.
+- The favicon `404` seen during development is unrelated to authentication, model loading, or frontend security.
+
 ### Before public deployment
 
-1. CSRF protection, password reset, token rotation, and Socket.IO handshake authorization.
-2. Request-size limits, rate limiting, security headers, TLS/HSTS, and model-fetch timeout.
+1. CSRF protection, password reset, token rotation, session restoration, logout, and Socket.IO handshake authorization.
+2. Production HTTPS API URL validation, rate limiting, security headers, TLS/HSTS, and model-fetch timeout tests.
 3. Production Docker images and Nginx deployment configuration.
 4. Transactional quote generation and immutable pricing snapshots.
 5. Monitoring, structured logging, database backups, and restore testing.

@@ -31,6 +31,7 @@ Use this document at the start of future Carsport work. Read [project-progress.m
 ## Current limitations — intentionally deferred
 
 - Authentication uses PostgreSQL users, bcrypt password hashes, and HTTP-only JWT cookies. Configuration and quote requests are user-owned. Password reset, CSRF protection, token rotation, and Socket.IO handshake authorization remain unimplemented.
+- The frontend security review is recorded in [improvements-and-future-tasks.md](improvements-and-future-tasks.md). Before public deployment, implement CSRF protection, HTTPS-only production API configuration, session restoration/logout, CI dependency auditing, and reverse-proxy security headers.
 - Realtime collaboration is disabled and must remain disabled until authentication, authorization, persistence, and multi-instance coordination exist.
 - Placement rules do not yet include geometry collision, fitment measurements, exclusions, dependencies, or safety validation.
 - Docker Compose is a development stack, not a production deployment.
