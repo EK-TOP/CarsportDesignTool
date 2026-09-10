@@ -1,8 +1,9 @@
 import cors from 'cors';
 import express from 'express';
 import { createCatalogRouter } from './catalog/catalogRouter.js';
+import { createConfigurationRouter } from './configuration/configurationRouter.js';
 
-export function createApp({ clientOrigin, catalogService }) {
+export function createApp({ clientOrigin, catalogService, configurationService }) {
   const app = express();
 
   app.use(cors({ origin: clientOrigin }));
@@ -13,6 +14,7 @@ export function createApp({ clientOrigin, catalogService }) {
   });
 
   app.use('/api', createCatalogRouter(catalogService));
+  app.use('/api', createConfigurationRouter(configurationService));
 
   app.use((_request, response) => {
     response.status(404).json({ error: 'Route not found' });

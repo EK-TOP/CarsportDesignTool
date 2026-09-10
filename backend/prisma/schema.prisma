@@ -20,6 +20,8 @@ model Vehicle {
   configurations Configuration[]
   vehicleParts   VehiclePart[]
   assets         Asset[]
+  placementAnchors PlacementAnchor[]
+  placementZones   PlacementZone[]
 }
 
 model Part {
@@ -81,5 +83,35 @@ model Configuration {
   updatedAt DateTime @updatedAt
   vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
 
+  @@index([vehicleId])
+}
+
+model PlacementAnchor {
+  id        String   @id @default(cuid())
+  vehicleId String
+  code      String
+  name      String
+  position  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@unique([vehicleId, code])
+  @@index([vehicleId])
+}
+
+model PlacementZone {
+  id              String   @id @default(cuid())
+  vehicleId       String
+  code            String
+  name            String
+  anchorCode      String
+  allowedCategory String
+  isExclusive     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  @@unique([vehicleId, code])
   @@index([vehicleId])
 }

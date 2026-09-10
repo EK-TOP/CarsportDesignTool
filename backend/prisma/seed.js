@@ -70,6 +70,30 @@ async function main() {
     update: {},
     create: { sku: 'MAT-RACING-RED', name: 'Racing Red', hexColor: '#B20D20', priceCents: 45000 }
   });
+
+  const anchors = [
+    { code: 'rear-center', name: 'Rear center', position: { x: 0, y: 0.55, z: -1.25 } },
+    { code: 'wheel-set', name: 'Wheel set', position: { x: 0, y: 0.25, z: 0 } }
+  ];
+  for (const anchor of anchors) {
+    await prisma.placementAnchor.upsert({
+      where: { vehicleId_code: { vehicleId: vehicle.id, code: anchor.code } },
+      update: anchor,
+      create: { vehicleId: vehicle.id, ...anchor }
+    });
+  }
+
+  const zones = [
+    { code: 'rear-aero', name: 'Rear aerodynamics', anchorCode: 'rear-center', allowedCategory: 'aerodynamics', isExclusive: true },
+    { code: 'wheels', name: 'Wheel fitment', anchorCode: 'wheel-set', allowedCategory: 'wheels', isExclusive: true }
+  ];
+  for (const zone of zones) {
+    await prisma.placementZone.upsert({
+      where: { vehicleId_code: { vehicleId: vehicle.id, code: zone.code } },
+      update: zone,
+      create: { vehicleId: vehicle.id, ...zone }
+    });
+  }
 }
 
 main()

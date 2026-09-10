@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 import { fetchVehicle, fetchVehicles } from './features/catalog/catalogApi.js';
+import { saveConfiguration } from './features/configuration/configurationApi.js';
+import { ConfigurationPanel } from './features/configuration/ConfigurationPanel.jsx';
 import { VehicleViewer } from './features/vehicle-viewer/VehicleViewer.jsx';
 import { useDesignerStore } from './store/designerStore.js';
 
 export function App() {
-  const { selectedVehicle, setSelectedVehicle } = useDesignerStore();
+  const { selectedVehicle, setSelectedVehicle, placements, togglePlacement } = useDesignerStore();
   const [vehicles, setVehicles] = useState([]);
   const [catalogState, setCatalogState] = useState('loading');
   const [retryCount, setRetryCount] = useState(0);
   const [selectedVehicleDetail, setSelectedVehicleDetail] = useState(null);
   const [vehicleState, setVehicleState] = useState('idle');
+  const [configurationState, setConfigurationState] = useState('idle');
+  const [validationResult, setValidationResult] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -47,6 +51,17 @@ export function App() {
     return () => controller.abort();
   }, [selectedVehicle]);
 
+  async function handleSaveConfiguration() {
+    if (!selectedVehicle) return;
+    setConfigurationState('saving');
+    try {
+      setValidationResult(await saveConfiguration(selectedVehicle, placements));
+      setConfigurationState('ready');
+    } catch {
+      setConfigurationState('error');
+    }
+  }
+
   return (
     <main className="designer-shell">
       <header>
@@ -68,7 +83,7 @@ export function App() {
           <p>{catalogState === 'ready' && (selectedVehicle ? 'Ready to configure components.' : 'Choose a vehicle to begin.')}</p>
           <p>{vehicleState === 'loading' && 'Loading vehicle details...'}</p>
           <p>{vehicleState === 'error' && 'Vehicle details are unavailable. Select the vehicle again to retry.'}</p>
-          {selectedVehicleDetail && <><h3>{selectedVehicleDetail.name}</h3><p>{selectedVehicleDetail.parts.length} compatible parts available.</p></>}
+          {selectedVehicleDetail && <><h3>{selectedVehicleDetail.name}</h3><p>{selectedVehicleDetail.parts.length} compatible parts available.</p><ConfigurationPanel parts={selectedVehicleDetail.parts} placements={placements} onToggle={togglePlacement} onSave={handleSaveConfiguration} saving={configurationState === 'saving'} result={validationResult} />{configurationState === 'error' && <p>Configuration could not be saved. Try again.</p>}</>}
         </aside>
       </section>
     </main>

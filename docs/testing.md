@@ -235,6 +235,18 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Outcome:** **Pass**.
 - **Related change:** Step 2 work complete; commit pending at the time of this entry.
 
+### Step 3 configuration foundation
+
+- **Date:** 2026-09-10
+- **Phase:** Step 3 — configuration and rule foundations.
+- **Purpose:** Verify persisted compatible-part configurations and structured placement validation.
+- **Environment:** Local Docker Compose PostgreSQL, backend, and frontend services.
+- **Method:** Applied the placement migration and seed data; ran `npm test` in the backend container and `npm run lint` in the frontend container.
+- **Expected result:** Valid placements persist; invalid zones return structured errors; catalog/model tests remain intact; frontend lint passes.
+- **Actual result:** All `5` backend tests passed, including valid configuration persistence and invalid-zone validation. Frontend lint completed without findings.
+- **Outcome:** **Pass**.
+- **Related change:** Step 3 work in progress; commit pending.
+
 ## Test entry template
 
 ### [Test name]

@@ -17,4 +17,12 @@ button { margin-top: .5rem; padding: .7rem 1rem; border: 0; border-radius: .5rem
 .viewer-error { color: #ffd2d8; }
 .camera-controls { position: absolute; right: 1rem; bottom: 1rem; display: flex; gap: .5rem; }
 .camera-controls button { margin: 0; }
+.configuration-options { margin-top: 1.5rem; border-top: 1px solid #24334e; padding-top: 1rem; }
+.part-option { display: flex; gap: .6rem; align-items: flex-start; margin: .75rem 0; }
+.part-option input { margin-top: .3rem; }
+.part-option small { display: block; color: #aebdd2; margin-top: .15rem; }
+.validation-result { margin-top: 1rem; padding: .75rem; border-radius: .5rem; }
+.validation-result p { margin: .45rem 0 0; }
+.validation-valid { background: #123d31; color: #ceffeb; }
+.validation-error { background: #4a1e27; color: #ffd2d8; }
 @media (max-width: 760px) { .designer-shell { padding: 1.5rem; } .workspace { grid-template-columns: 1fr; } }

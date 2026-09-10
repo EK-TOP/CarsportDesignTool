@@ -1,6 +1,6 @@
 # Carsport Design Tool — Project Progress
 
-**Status:** Step 2 completed and verified; awaiting approval for Step 3.
+**Status:** Step 3 implemented and verified; awaiting publication.
 
 This document records the work completed from the initial agent specifications through the first catalog-enabled version of the Carsport Design Tool. Each future implementation phase requires explicit approval before work proceeds.
 
@@ -175,10 +175,11 @@ The following audit fixes were completed before 3D asset loading begins:
 
 ### Step 3 — Implement the configuration and rule foundations
 
-- Define placement anchors and placement zones.
-- Add compatible parts and initial placement validation.
-- Persist a user configuration.
-- Return structured validation results: `valid`, `warnings`, and `errors`.
+- **Completed:** Added persistent vehicle placement anchors and exclusive placement zones.
+- **Completed:** Seeded Demo Sport rear-aerodynamics and wheel-fitment placement rules.
+- **Completed:** Added compatible-part selection and configuration saving in the frontend.
+- **Completed:** Added backend configuration persistence and structured `valid`, `warnings`, and `errors` validation responses.
+- **Verified:** Backend integration tests pass `5/5`; frontend lint passes.
 
 **Expected result:** Users can configure compatible components and receive validation feedback.
 
