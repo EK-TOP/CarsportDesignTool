@@ -143,6 +143,22 @@ No step below will be started until approval is given.
 
 **Result:** A user can select a real demo vehicle returned by the backend.
 
+## 9. Pre-Step 2 hardening
+
+The following audit fixes were completed before 3D asset loading begins:
+
+- Standardized PostgreSQL access on Prisma only; the redundant raw `pg` client was removed.
+- Added explicit PostgreSQL and Redis connection timeouts and guarded backend startup/shutdown.
+- Made catalog-cache read, write, and invalidation errors non-fatal; PostgreSQL remains the source of truth.
+- Added a database constraint requiring every asset to belong to exactly one vehicle or part.
+- Added automatic migration and idempotent seed jobs to Docker Compose before the backend starts.
+- Restricted development service port bindings to `127.0.0.1`.
+- Added route identifier validation, catalog retry UI, and a WebGL viewer fallback message.
+- Added a disabled-by-default realtime feature gate, event payload validation, graceful shutdown, and retained commented configuration for future persisted collaboration.
+- Added frontend ESLint configuration and a GitHub Actions workflow for frontend lint/build plus Docker-backed catalog integration tests.
+
+**Verified:** PostgreSQL applied the asset-owner migration. The running API returned Demo Sport with two compatible parts and EUR pricing; `/health` and the frontend both responded successfully.
+
 ### Step 2 — Load a vehicle in the 3D designer
 
 - Add GLB/glTF asset loading.

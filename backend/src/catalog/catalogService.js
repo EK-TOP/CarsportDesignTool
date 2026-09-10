@@ -15,8 +15,12 @@ function toVehicleSummary(vehicle) {
 
 export function createCatalogService({ prisma, cache }) {
   async function listVehicles() {
-    const cached = await cache.get(vehiclesCacheKey);
-    if (cached) return JSON.parse(cached);
+    try {
+      const cached = await cache.get(vehiclesCacheKey);
+      if (cached) return JSON.parse(cached);
+    } catch (error) {
+      console.warn('Catalog cache read failed; querying database:', error.message);
+    }
 
     const vehicles = await prisma.vehicle.findMany({
       where: { isActive: true },
@@ -24,7 +28,11 @@ export function createCatalogService({ prisma, cache }) {
       orderBy: { name: 'asc' }
     });
     const result = vehicles.map(toVehicleSummary);
-    await cache.set(vehiclesCacheKey, JSON.stringify(result), { EX: cacheTtlSeconds });
+    try {
+      await cache.set(vehiclesCacheKey, JSON.stringify(result), { EX: cacheTtlSeconds });
+    } catch (error) {
+      console.warn('Catalog cache write failed; returning database result:', error.message);
+    }
     return result;
   }
 
@@ -52,5 +60,13 @@ export function createCatalogService({ prisma, cache }) {
     };
   }
 
-  return { listVehicles, getVehicle };
+  async function invalidateVehicles() {
+    try {
+      await cache.del(vehiclesCacheKey);
+    } catch (error) {
+      console.warn('Catalog cache invalidation failed:', error.message);
+    }
+  }
+
+  return { listVehicles, getVehicle, invalidateVehicles };
 }

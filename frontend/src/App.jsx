@@ -7,9 +7,11 @@ export function App() {
   const { selectedVehicle, setSelectedVehicle } = useDesignerStore();
   const [vehicles, setVehicles] = useState([]);
   const [catalogState, setCatalogState] = useState('loading');
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
+    setCatalogState('loading');
     fetchVehicles(controller.signal)
       .then((items) => {
         setVehicles(items);
@@ -20,7 +22,7 @@ export function App() {
       });
 
     return () => controller.abort();
-  }, []);
+  }, [retryCount]);
 
   return (
     <main className="designer-shell">
@@ -39,7 +41,7 @@ export function App() {
             {vehicles.map((vehicle) => <option key={vehicle.id} value={vehicle.id}>{vehicle.name}</option>)}
           </select>
           <p>{catalogState === 'loading' && 'Loading vehicle catalog...'}</p>
-          <p>{catalogState === 'error' && 'Vehicle catalog is unavailable. Try again shortly.'}</p>
+          {catalogState === 'error' && <><p>Vehicle catalog is unavailable. Try again shortly.</p><button type="button" onClick={() => setRetryCount((count) => count + 1)}>Retry catalog</button></>}
           <p>{catalogState === 'ready' && (selectedVehicle ? 'Ready to configure components.' : 'Choose a vehicle to begin.')}</p>
         </aside>
       </section>
