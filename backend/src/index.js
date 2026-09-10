@@ -4,6 +4,7 @@ import { createApp } from './app.js';
 import { createCatalogService } from './catalog/catalogService.js';
 import { createConfigurationService } from './configuration/configurationService.js';
 import { createPricingService } from './pricing/pricingService.js';
+import { createAuthService } from './auth/authService.js';
 import { environment } from './config/environment.js';
 
 const cache = createClient({
@@ -29,7 +30,8 @@ async function start() {
     const catalogService = createCatalogService({ prisma, cache });
     const configurationService = createConfigurationService({ prisma });
     const pricingService = createPricingService({ prisma, configurationService });
-    const app = createApp({ ...environment, catalogService, configurationService, pricingService });
+    const authService = createAuthService({ prisma, jwtSecret: environment.jwtSecret });
+    const app = createApp({ ...environment, catalogService, configurationService, pricingService, authService });
     server = app.listen(environment.port, () => {
       console.log(`Carsport API listening on port ${environment.port}`);
     });

@@ -82,9 +82,22 @@ model Configuration {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   quotes    Quote[]
 
   @@index([vehicleId])
+}
+
+model User {
+  id           String          @id @default(cuid())
+  email        String          @unique
+  username     String          @unique
+  passwordHash String
+  role         String          @default("sales")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  configurations Configuration[]
 }
 
 model Quote {

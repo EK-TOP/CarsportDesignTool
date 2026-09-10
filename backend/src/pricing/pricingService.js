@@ -1,6 +1,6 @@
 export function createPricingService({ prisma, configurationService }) {
-  async function createQuote(vehicleId, configurationId) {
-    const configuration = await configurationService.get(vehicleId, configurationId);
+  async function createQuote(vehicleId, configurationId, userId) {
+    const configuration = await configurationService.get(vehicleId, configurationId, userId);
     if (!configuration) return null;
     if (!configuration.valid) return { configuration, quote: null };
 

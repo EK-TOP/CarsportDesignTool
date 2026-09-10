@@ -43,17 +43,17 @@ export function createConfigurationService({ prisma }) {
     return { valid: errors.length === 0, warnings, errors };
   }
 
-  async function save(vehicleId, placements) {
+  async function save(vehicleId, placements, userId) {
     const vehicle = await prisma.vehicle.findFirst({ where: { id: vehicleId, isActive: true } });
     if (!vehicle) return null;
     const validation = await evaluate(vehicleId, placements);
-    const configuration = await prisma.configuration.create({ data: { vehicleId, payload: { placements } } });
+    const configuration = await prisma.configuration.create({ data: { vehicleId, userId, payload: { placements } } });
     return { id: configuration.id, vehicleId, placements, ...validation };
   }
 
-  async function get(vehicleId, configurationId) {
+  async function get(vehicleId, configurationId, userId) {
     if (!cuidPattern.test(configurationId)) return undefined;
-    const configuration = await prisma.configuration.findFirst({ where: { id: configurationId, vehicleId } });
+    const configuration = await prisma.configuration.findFirst({ where: { id: configurationId, vehicleId, userId } });
     if (!configuration) return null;
     const placements = Array.isArray(configuration.payload.placements) ? configuration.payload.placements : [];
     return { id: configuration.id, vehicleId, placements, ...await evaluate(vehicleId, placements) };

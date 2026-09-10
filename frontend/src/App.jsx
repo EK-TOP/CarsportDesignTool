@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { authenticate } from './features/auth/authApi.js';
 import { fetchVehicle, fetchVehicles } from './features/catalog/catalogApi.js';
 import { createQuote, saveConfiguration } from './features/configuration/configurationApi.js';
 import { ConfigurationPanel } from './features/configuration/ConfigurationPanel.jsx';
@@ -15,6 +16,9 @@ export function App() {
   const [configurationState, setConfigurationState] = useState('idle');
   const [validationResult, setValidationResult] = useState(null);
   const [quote, setQuote] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [authError, setAuthError] = useState(null);
+  const [authMode, setAuthMode] = useState('login');
 
   useEffect(() => {
     const controller = new AbortController();
@@ -65,6 +69,12 @@ export function App() {
     }
   }
 
+  async function handleAuthentication(event) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    try { setAccount(await authenticate(authMode, { email: form.get('email'), username: form.get('username'), password: form.get('password'), identity: form.get('identity') })); setAuthError(null); } catch (error) { setAuthError(error.message); }
+  }
+
   return (
     <main className="designer-shell">
       <header>
@@ -76,6 +86,8 @@ export function App() {
         <VehicleViewer vehicle={selectedVehicleDetail} />
         <aside className="panel">
           <h2>Configuration</h2>
+          {!account && <form onSubmit={handleAuthentication}><h3>{authMode === 'login' ? 'Sign in' : 'Create account'}</h3><input name="identity" placeholder="Email or username" required={authMode === 'login'} /><input name="email" type="email" placeholder="Email" required={authMode === 'register'} /><input name="username" placeholder="Username" required={authMode === 'register'} /><input name="password" type="password" placeholder="Password" minLength="12" required /><button type="submit">{authMode === 'login' ? 'Sign in' : 'Register'}</button><button type="button" onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}>{authMode === 'login' ? 'Create account' : 'Use sign in'}</button>{authError && <p>{authError}</p>}</form>}
+          {account && <p>Signed in as <strong>{account.username}</strong></p>}
           <label htmlFor="vehicle">Vehicle</label>
           <select id="vehicle" value={selectedVehicle ?? ''} onChange={(event) => setSelectedVehicle(event.target.value || null)} disabled={catalogState !== 'ready'}>
             <option value="">Select a vehicle</option>

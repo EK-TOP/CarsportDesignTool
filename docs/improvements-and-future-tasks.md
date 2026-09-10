@@ -16,6 +16,7 @@ This document records architecture audit decisions, agreed improvements, and wor
 | 8 | Cache validation | Implemented structural validation of cached vehicle summaries. Invalid cached content is discarded and PostgreSQL is queried. | Add dedicated cache-corruption tests in Step 5. |
 | 9 | Repeated CUID checks | Implemented a shared `isCuid(value)` backend utility used by catalog, configuration, and pricing routers. | Add dedicated unit tests for the shared utility in Step 5. |
 | 10 | Frontend API response validation | Approved for implementation now. Zod validates browser API payloads before the UI uses them, turning malformed server data into controlled request errors rather than runtime component failures. | Implemented in the frontend catalog and configuration API modules. |
+| 11 | Authentication | Approved and implemented: PostgreSQL users, bcrypt password hashes, JWT HTTP-only cookies, and authenticated configuration/quote ownership. | Add production secret management, CSRF protection, password reset, and Socket.IO handshake authorization before public deployment. |
 
 ## Prioritized future backlog
 

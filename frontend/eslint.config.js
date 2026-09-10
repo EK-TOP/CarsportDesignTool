@@ -22,7 +22,7 @@ export default [
       parserOptions: {
         ecmaFeatures: { jsx: true }
       },
-      globals: { window: 'readonly', document: 'readonly', fetch: 'readonly', AbortController: 'readonly', console: 'readonly' }
+      globals: { window: 'readonly', document: 'readonly', fetch: 'readonly', AbortController: 'readonly', FormData: 'readonly', console: 'readonly' }
     }
   }
 ];

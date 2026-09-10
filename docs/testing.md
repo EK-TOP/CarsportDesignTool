@@ -283,6 +283,18 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Outcome:** **Pass**.
 - **Related change:** Hardening work in progress; commit pending.
 
+### Authentication foundation
+
+- **Date:** 2026-09-10
+- **Phase:** Step 5 authentication substep.
+- **Purpose:** Verify user migration, registration-backed authenticated requests, and frontend account form static checks.
+- **Environment:** Local Docker Compose PostgreSQL, backend, and frontend.
+- **Method:** Rebuilt the stack, ran backend `npm test`, and frontend `npm run lint`.
+- **Expected result:** Users authenticate through HTTP-only JWT cookies and protected configuration flows remain functional.
+- **Actual result:** Migration completed; all `6` backend tests passed using a registered temporary user cookie. Frontend lint passed after declaring the browser `FormData` global.
+- **Outcome:** **Pass**.
+- **Related change:** Authentication work in progress; commit pending.
+
 ## Test entry template
 
 ### [Test name]

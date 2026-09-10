@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-const required = ['DATABASE_URL', 'REDIS_URL', 'CLIENT_ORIGIN'];
+const required = ['DATABASE_URL', 'REDIS_URL', 'CLIENT_ORIGIN', 'JWT_SECRET'];
 const missing = required.filter((name) => !process.env[name]?.trim());
 
 if (missing.length > 0) {
@@ -12,5 +12,6 @@ export const environment = Object.freeze({
   databaseUrl: process.env.DATABASE_URL,
   redisUrl: process.env.REDIS_URL,
   clientOrigin: process.env.CLIENT_ORIGIN,
+  jwtSecret: process.env.JWT_SECRET,
   connectionTimeoutMs: Number(process.env.CONNECTION_TIMEOUT_MS ?? 5000)
 });

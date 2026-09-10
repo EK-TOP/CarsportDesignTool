@@ -7,6 +7,7 @@ const quoteSchema = z.object({ id: z.string(), currency: z.string(), subtotalCen
 export async function saveConfiguration(vehicleId, placements) {
   const response = await fetch(`${apiUrl}/api/vehicles/${vehicleId}/configurations`, {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ placements })
   });
@@ -16,7 +17,7 @@ export async function saveConfiguration(vehicleId, placements) {
 }
 
 export async function createQuote(vehicleId, configurationId) {
-  const response = await fetch(`${apiUrl}/api/vehicles/${vehicleId}/configurations/${configurationId}/quote`, { method: 'POST' });
+  const response = await fetch(`${apiUrl}/api/vehicles/${vehicleId}/configurations/${configurationId}/quote`, { method: 'POST', credentials: 'include' });
   if (!response.ok) throw new Error('Unable to calculate the quote.');
   const { data } = await response.json();
   return quoteSchema.parse(data);
