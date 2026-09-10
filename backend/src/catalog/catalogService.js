@@ -60,6 +60,13 @@ export function createCatalogService({ prisma, cache }) {
     };
   }
 
+  async function getModelAsset(id) {
+    return prisma.asset.findFirst({
+      where: { id, type: 'model', vehicle: { isActive: true } },
+      select: { id: true, uri: true, mimeType: true }
+    });
+  }
+
   async function invalidateVehicles() {
     try {
       await cache.del(vehiclesCacheKey);
@@ -68,5 +75,5 @@ export function createCatalogService({ prisma, cache }) {
     }
   }
 
-  return { listVehicles, getVehicle, invalidateVehicles };
+  return { listVehicles, getVehicle, getModelAsset, invalidateVehicles };
 }

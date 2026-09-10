@@ -7,6 +7,11 @@ const parts = [
   { sku: 'WHEEL-FORGED-19', name: 'Forged 19-inch wheels', category: 'wheels', description: 'Lightweight forged alloy wheel set.', priceCents: 249900 }
 ];
 
+const demoSportModel = {
+  uri: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/main/2.0/Buggy/glTF-Binary/Buggy.glb',
+  mimeType: 'model/gltf-binary'
+};
+
 async function main() {
   const vehicle = await prisma.vehicle.upsert({
     where: { sku: 'DEMO-SPORT-01' },
@@ -26,6 +31,25 @@ async function main() {
       }
     }
   });
+
+  const modelAsset = await prisma.asset.findFirst({
+    where: { vehicleId: vehicle.id, type: 'model' }
+  });
+
+  if (!modelAsset) {
+    await prisma.asset.create({
+      data: {
+        vehicleId: vehicle.id,
+        type: 'model',
+        ...demoSportModel
+      }
+    });
+  } else {
+    await prisma.asset.update({
+      where: { id: modelAsset.id },
+      data: demoSportModel
+    });
+  }
 
   for (const part of parts) {
     const savedPart = await prisma.part.upsert({

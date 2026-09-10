@@ -1,6 +1,6 @@
 # Carsport Design Tool — Project Progress
 
-**Status:** Step 1 completed; awaiting approval for 3D vehicle loading.
+**Status:** Step 2 completed and verified; awaiting approval for Step 3.
 
 This document records the work completed from the initial agent specifications through the first catalog-enabled version of the Carsport Design Tool. Each future implementation phase requires explicit approval before work proceeds.
 
@@ -161,10 +161,15 @@ The following audit fixes were completed before 3D asset loading begins:
 
 ### Step 2 — Load a vehicle in the 3D designer
 
-- Add GLB/glTF asset loading.
-- Load the selected vehicle in Babylon.js.
-- Add loading, empty, and asset error states.
-- Add camera presets and viewer controls.
+- **Implemented:** Added an idempotently seeded GLB model asset for Demo Sport.
+- **Corrected:** Replaced an obsolete GLB sample URL that returned HTTP 404; reseeding now repairs existing catalog data with the verified CORS-enabled replacement.
+- **Corrected:** Passed the Babylon `SceneLoader.LoadAssetContainerAsync` arguments in the installed API order: empty root URL, model URI, then scene.
+- **Corrected:** Stream the trusted external GLB through a validated local backend endpoint, eliminating the browser's direct dependency on the external model host.
+- **Implemented:** Load selected vehicle details through the catalog API and pass them to the Babylon.js viewer.
+- **Implemented:** Load a GLB asset container, dispose the previous selection, and show loading, empty, and asset-error states.
+- **Implemented:** Added Front, Side, and Top camera preset controls.
+- **Verified:** The model-asset API integration tests pass; frontend lint and production build pass from a clean dependency installation.
+- **Verified:** Manual Firefox browser testing confirmed the Demo Sport base model loads properly in the central designer canvas.
 
 **Expected result:** The selected catalog vehicle appears in the interactive 3D viewer.
 
