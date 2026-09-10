@@ -1,6 +1,6 @@
 # Carsport Design Tool — Project Progress
 
-**Status:** Steps 1–4 and post-Step 4 hardening are published; Step 5 requires explicit approval and a deployment target.
+**Status:** Steps 1–4, post-Step 4 hardening, and the Step 5 authentication substep are published; production deployment hardening requires a deployment target.
 
 This document records the work completed from the initial agent specifications through the first catalog-enabled version of the Carsport Design Tool. Each future implementation phase requires explicit approval before work proceeds.
 
@@ -115,6 +115,8 @@ The project can now:
 7. Return active catalog vehicles and individual vehicle details from the API.
 8. Seed a Demo Sport vehicle with compatible parts and a material.
 9. Load the vehicle selector from the live catalog API.
+10. Register and sign in users with an email or username and password.
+11. Persist user-owned configurations and quotations through authenticated requests.
 
 ## Not yet implemented
 
@@ -195,7 +197,10 @@ The following audit fixes were completed before 3D asset loading begins:
 
 ### Step 5 — Harden and deploy
 
-- Add authentication, tests, CI/CD, environment separation, Nginx, monitoring, and backups.
+- **Completed:** Added PostgreSQL-backed users, bcrypt password hashes, HTTP-only JWT cookie authentication, and configuration/quote ownership.
+- **Completed:** Added browser registration and sign-in controls.
+- **Verified:** Authentication-backed backend test suite passes `6/6`; frontend lint passes.
+- **Remaining:** Add CSRF protection, password reset, token rotation, Socket.IO handshake authorization, production secrets, rate limiting, CI/CD, environment separation, Nginx, monitoring, and backups.
 - Add production Docker image optimizations.
 
 **Expected result:** The product is ready for controlled deployment.

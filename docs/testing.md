@@ -233,7 +233,7 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Expected result:** The base vehicle GLB loads in the central canvas, with the selected vehicle’s configuration information shown in the right panel.
 - **Actual result:** User confirmed the vehicle model works properly.
 - **Outcome:** **Pass**.
-- **Related change:** Step 2 work complete; commit pending at the time of this entry.
+- **Related change:** `0c52e36`.
 
 ### Step 3 configuration foundation
 
@@ -245,7 +245,7 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Expected result:** Valid placements persist; invalid zones return structured errors; catalog/model tests remain intact; frontend lint passes.
 - **Actual result:** All `5` backend tests passed, including valid configuration persistence and invalid-zone validation. Frontend lint completed without findings.
 - **Outcome:** **Pass**.
-- **Related change:** Step 3 work in progress; commit pending.
+- **Related change:** `fa44ec6`.
 
 ### Step 3 browser configuration save
 
@@ -269,7 +269,7 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Expected result:** A valid configuration produces an itemized EUR quote, with correct integer-cent totals; all checks pass.
 - **Actual result:** All `6` backend tests passed, including a quote total of `4,728,900` cents for Demo Sport plus the rear spoiler. Frontend lint passed after correcting a viewer cleanup warning. Vite production build passed with only the existing non-blocking Babylon.js chunk-size advisory.
 - **Outcome:** **Pass**.
-- **Related change:** Step 4 work in progress; commit pending.
+- **Related change:** `651c332`.
 
 ### API hardening regression check
 
@@ -281,7 +281,7 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Expected result:** Existing catalog, model delivery, configuration, and pricing behavior remains valid.
 - **Actual result:** All `6` backend integration tests passed.
 - **Outcome:** **Pass**.
-- **Related change:** Hardening work in progress; commit pending.
+- **Related change:** `d63c9f8`.
 
 ### Authentication foundation
 
@@ -293,7 +293,7 @@ Never mark a feature as working unless this document contains fresh passing veri
 - **Expected result:** Users authenticate through HTTP-only JWT cookies and protected configuration flows remain functional.
 - **Actual result:** Migration completed; all `6` backend tests passed using a registered temporary user cookie. Frontend lint passed after declaring the browser `FormData` global.
 - **Outcome:** **Pass**.
-- **Related change:** Authentication work in progress; commit pending.
+- **Related change:** `92ef72e`.
 
 ## Test entry template
 

@@ -6,7 +6,7 @@ This document records architecture audit decisions, agreed improvements, and wor
 
 | # | Topic | Decision / answer | Follow-up |
 | --- | --- | --- | --- |
-| 1 | Authentication and ownership | Authentication will be added later. Until then, the application is a local, single-user prototype only and must not be exposed publicly. | Step 5: add users, ownership, JWT/session middleware, and authorization checks. |
+| 1 | Authentication and ownership | Implemented PostgreSQL users, HTTP-only JWT cookies, and configuration/quote ownership. The application remains unsuitable for public deployment until CSRF protection, password reset, token rotation, and production secret management are added. | Step 5: complete production authentication hardening and Socket.IO handshake authorization. |
 | 2 | Request protection | Implemented a `1mb` JSON request-body limit. Production rate limiting remains a Step 5 requirement. | Step 5: add a production rate-limit policy. |
 | 3 | Model fetch timeout | Implemented a 10-second `AbortController` timeout with controlled `504` response handling. | Step 5: add timeout and stream-abort tests. |
 | 4 | Price snapshots | A saved quote is the sales-reference record. The current `Quote.payload` stores the itemized price snapshot, and `subtotalCents`, `discountCents`, and `totalCents` preserve the totals even if catalog prices later change. Customers are not exposed to this data in the current application. | Keep quotations with the project/configuration; add sales access controls with authentication. |
@@ -22,7 +22,7 @@ This document records architecture audit decisions, agreed improvements, and wor
 
 ### Before public deployment
 
-1. Authentication, authorization, and configuration/quote ownership.
+1. CSRF protection, password reset, token rotation, and Socket.IO handshake authorization.
 2. Request-size limits, rate limiting, security headers, TLS/HSTS, and model-fetch timeout.
 3. Production Docker images and Nginx deployment configuration.
 4. Transactional quote generation and immutable pricing snapshots.

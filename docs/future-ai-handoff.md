@@ -5,8 +5,8 @@ Use this document at the start of future Carsport work. Read [project-progress.m
 ## Current published baseline
 
 - **Branch:** `main`
-- **Latest published commit:** `d63c9f8` — API hardening and future-work documentation.
-- **Implemented phases:** Foundation, catalog/database, 3D vehicle loading, configuration validation/persistence, and pricing/quotation foundation.
+- **Latest published commit:** `92ef72e` — user authentication and resource ownership.
+- **Implemented phases:** Foundation, catalog/database, 3D vehicle loading, configuration validation/persistence, pricing/quotation foundation, and the Step 5 authentication substep.
 - **Local runtime:** Docker Compose; frontend at `http://localhost:5173`, backend at `http://localhost:4000`, realtime service at `http://localhost:5000` and disabled by default.
 - **Database:** PostgreSQL 16, accessed through Prisma only.
 - **Cache:** Redis 7, non-authoritative; catalog falls back to PostgreSQL.
@@ -30,7 +30,7 @@ Use this document at the start of future Carsport work. Read [project-progress.m
 
 ## Current limitations — intentionally deferred
 
-- No authentication, authorization, ownership, or customer-facing quote workflow. Treat deployment as local/private only.
+- Authentication uses PostgreSQL users, bcrypt password hashes, and HTTP-only JWT cookies. Configuration and quote requests are user-owned. Password reset, CSRF protection, token rotation, and Socket.IO handshake authorization remain unimplemented.
 - Realtime collaboration is disabled and must remain disabled until authentication, authorization, persistence, and multi-instance coordination exist.
 - Placement rules do not yet include geometry collision, fitment measurements, exclusions, dependencies, or safety validation.
 - Docker Compose is a development stack, not a production deployment.
@@ -39,7 +39,7 @@ Use this document at the start of future Carsport work. Read [project-progress.m
 
 Step 5 is production hardening and deployment preparation. It should be broken into explicit approved substeps:
 
-1. Add identity, configuration/quote ownership, and authorization.
+1. Add CSRF protection, password reset, token rotation, and Socket.IO handshake authorization.
 2. Add rate limiting, security headers, CSP, TLS/HSTS at the reverse proxy, and complete model timeout tests.
 3. Create production Docker images, Nginx static/reverse-proxy configuration, non-root containers, and environment/secrets separation.
 4. Add CI checks for the full backend test suite, production builds, image builds, and deployment workflow.

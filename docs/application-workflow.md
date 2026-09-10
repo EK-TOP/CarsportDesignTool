@@ -2,7 +2,7 @@
 
 This document describes how the Carsport frontend, backend, realtime server, PostgreSQL database, Redis cache, and Docker development stack work together.
 
-> **Current scope:** Catalog selection, GLB vehicle loading, compatible-part configuration, placement validation, configuration persistence, and itemized quotation creation are implemented and verified. The realtime service remains intentionally disabled until authentication, authorization, and persisted collaboration handling are implemented.
+> **Current scope:** Catalog selection, GLB vehicle loading, compatible-part configuration, placement validation, configuration persistence, itemized quotation creation, and HTTP authentication are implemented. The realtime service remains intentionally disabled until Socket.IO handshake authorization and persisted collaboration handling are implemented.
 
 ## 1. System roles
 
